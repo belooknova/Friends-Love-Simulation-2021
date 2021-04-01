@@ -1,0 +1,18 @@
+﻿#「お宝本」の購入設定
+
+#金額の条件分岐
+BRANCH "[4] >= 800"
+
+DIALOG "お宝本を購入しました。" "はい"
+
+#800円支払う
+VALUE_SET 4 "[4] - 800"
+
+#アイテム追加
+ITEM_ADD 8
+
+ELSEBRANCH
+
+DIALOG "お金が足りない！" "はい"
+
+ENDBRANCH

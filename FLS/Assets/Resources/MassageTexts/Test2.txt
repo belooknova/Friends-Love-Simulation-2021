@@ -1,0 +1,49 @@
+﻿LABEL "START"
+MESS "あ、ビッグボーイがあるな…" ディズム
+
+#選択肢を表示する
+#SELECT 表示する選択肢 (表示する条件)
+
+#選択肢の二つ目以降を設定する
+#SEL_ELSE 表示する選択肢 (表示する条件)
+
+#選択肢を終了する
+#SEL_END
+
+SELECT "ビッグボーイ！！" 
+	MESS "ビッグボーイ！！！！！" ショーン
+
+	BRANCH "[1] == 1"
+		MESS "せっかくだから！俺は左の道を選ぶぜ！！" JB
+	ELSEBRANCH
+		MESS "せっかくだから！俺は右の道を選ぶぜ！！" JB
+	ENDBRANCH
+
+SEL_ELSE "ビッグボーイだ！"
+	MESS "あ！！！ビッグボーイだ！！！！" ショーン
+
+	BRANCH "[1] == 1"
+		MESS "うるさっ" まだら牛
+	ENDBRANCH
+
+SEL_ELSE "ビッグボーイがあるんだ！"
+	MESS "あ！！！ビッグボーイがあるんだ！！！！" ショーン
+
+	MESS "山々の神々が散々で峰々のサボテンです" JB
+	SELECT "肯定する"
+		MESS "あれがサボテンかぁ" ディズム
+	SEL_ELSE "否定する"
+		MESS "違います" まだら牛
+	SEL_END
+
+SEL_END
+
+MESS "俺の足ぃ！！！" JB
+
+MESS "もう一度繰り返す？"
+SELECT "はい"
+	GOTO "START"
+SEL_ELSE "いいえ"
+	EVENTEND
+SEL_END
+#MESS "a"

@@ -1,0 +1,4 @@
+﻿BGMFADE "kousai" 1 1 NOWAIT
+WAIT 1
+#画面をフェードイン
+FADE 0.5 0 0 0 0 WAIT

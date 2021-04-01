@@ -1,0 +1,161 @@
+﻿
+IMGO_VAL "ground_img" "BackImg/backimg_kote0"
+IMGO_VAL_POSITION "ground_img" 0 0 20
+IMGO_VAL_SCALE "ground_img" 1.5 1.5 1
+IMGO_SET "ground_img"
+
+IMGO_VAL "h4" "Test_image"
+IMGO_VAL_POSITION "h4" 2 -3 0
+IMGO_SET "h4"
+
+MESS "それから、夕方になるまで張り込んだ…"
+
+IMGO_CHANGE "ground_img" "BackImg/backimg_kote1" 1 SMH_WAIT
+IMGO_MULTI_MOVE "ground_img & h4" "0.5 & 1" 2 0 1 WAIT
+#IMGO_MULTI_MOVE "ground_img & h4" -4 2 0.5 WAIT
+MESS "ん？あれは？"
+
+#EVENTEND
+
+IMGO_SET "test1" "kurane_1"
+IMGO_MOVE "test1" -1 -1 0  1 TAR_WAIT
+IMGO_MOVE "test1" 1 1 0  1 TAR_NOWAIT
+MESS "あ、そういう？"
+IMGO_ROT "test1" 0 0 10  2 ADD_WAIT
+IMGO_ROT "test1" 0 0 -15  1 ADD_NOWAIT
+MESS "待った！！！"
+IMGO_SIZE "test1" 1.5 1.5 1.5  2 TAR_WAIT
+IMGO_SIZE "test1" 1 1 1  1 TAR_NOWAIT
+MESS "異議あり！！！"
+IMGO_COLOR "test1"  255 255 150 255  4 WAIT
+IMGO_COLOR "test1"  150 255 255 255  1 NOWAIT
+
+MESS "俺と佐伯は寮を出て僅か5分、学校の校門前にたどり着いた。"
+MESS "もう7月、太陽が照りつけるー。"
+
+MESS "「すっかり暑くなったなぁ…」" 佐伯
+MESS "「いつの間にか、梅雨も明けてるからな～」" "<s=1>"
+IMGO_REMOVE "test1"
+
+#EVENTEND
+
+MESS "表示優先度のテスト"
+IMGO_SET "test1" "kurane_1"
+IMGO_COLOR "test1" 255 200 255 255 2 NOWAIT
+IMGO_MOVE "test1" -1 0 5 1 TAR_WAIT
+
+
+IMGO_SET "test2" "kurane_1"
+IMGO_COLOR "test2" 255 255 200 255 2 NOWAIT
+IMGO_MOVE "test2" 1 0 -5 1 TAR_WAIT
+
+IMGO_SET "test3" "kurane_1"
+
+#EVENTEND
+
+IMGO_SET "test1" "kurane_1"
+MESS "設定なし"
+IMGO_REMOVE "test1"
+WAIT 2
+
+#=== ["test2"の設定] ================================
+IMGO_VAL "test2"　"kurane_1"
+IMGO_VAL_POSITION "test2" 2 0 0
+IMGO_VAL_SCALE "test2" 1.5 1.5 1
+IMGO_VAL_ROTATION "test2" 0 0 15
+IMGO_VAL_COLOR "test2" 255 200 200 255
+#====================================================
+
+IMGO_SET "test2"
+MESS "設定あり"
+
+HEROSEL "好きなおにぎりの具" "7<8" 100
+	MESS "鮭"
+HEROSEL_ELSE "パンツの色" "40!=6" 50
+	MESS "SIMAPAN"
+HEROSEL_ELSE "死生観" "9!=0" 40
+	MESS "どんな死に方したいですか？"
+HEROSEL_ELSE "剣持刀也" "1!=5" "1==1" 3599
+	MESS "ロリコンを享受しろ！！！"
+HEROSEL_END
+
+#EVENTEND
+#==============-
+
+SELECT "リゼ・ヘルエスタ"
+	MESS "楽しかったぜ！先輩との友情ごっこぉ！！！！"
+	SELECT "笹木咲"
+		MESS "やよ…やよ…"
+	SEL_ELSE "花畑チャイカ" "False"
+		MESS "我が名は、第一第二第三皇女リゼ・ヘルエスタである"
+	SEL_END
+
+SEL_ELSE "アンジュ・カトリーナ"
+	MESS "許せねぇよなぁ！！"
+SEL_ELSE "戌亥とこ"
+	MESS "ｱﾊｰ!!"
+SEL_END
+
+#EVENTEND
+#==============-
+#IMG_SET 0 "kurane_1" 0 0
+#IMG_MOVE 0 2 50 50 WAIT_ADD
+#IMG_ROT 0 1.4 45 WAIT
+#IMG_FADE 0 1 WAIT_OUT
+#IMG_FADE 0 1 WAIT_IN
+#IMG_REMOVE 0
+
+#==============-
+DIALOG "フェイス！！！" "顔"
+
+DIALOG "それはそれ" "これ" "あれ"
+	MESS "これは？"
+ELSE_DIALOG
+	MESS "あれは？"
+END_DIALOG
+
+#==============-
+#BACKIMG_SET 0 "backimg_kote0" 0 0
+#BACKIMG_MOVE 0 1.0 1 1 NOWAIT_ADD 
+#BACKIMG_ROT 0 1.0 90 NOWAIT
+
+MESS "雷電、今すぐゲーム機の電源を切るんだ" "大佐"
+WAIT 1
+MESS "なんだって？" "雷電"
+BACKIMG_REMOVE 0
+
+#==============-
+BGMPLAY "lastsummer" 1
+MESS "雷電、今すぐゲーム機の電源を切るんだ" "大佐"
+
+BGMFADE "xmas-dating" 1 1 WAIT
+MESS "なんだって？" "雷電"
+
+BGMSTOP 1 WAIT
+MESS "これはゲームなんだ！！" 
+
+BGMCONT
+MESS "いつものゲームだ！！！！" 
+
+SOUND "kiss1" 1 1
+#EVENTEND
+
+#==============-
+
+MESSOFF
+WAIT 2
+MESSON
+WAIT 2
+
+#==============-
+
+Test "電電"
+LABEL "START"
+VALUE_SET 4 "[4] + 1"
+IF "[4] > 100"
+	Test "さ"
+ELSEIF
+	GOTO "START"
+ENDIF
+
+

@@ -1,0 +1,181 @@
+﻿#一日目
+
+:day{1}
+	talk{0, 4, "h4/ev_m_0"}
+	talk{2, 1, "h1/ev_m_0"}
+	talk{3, 3, "h3/ev_m_0"}
+	talk{4, 2, "h2/ev_m_0"}
+
+:day{2}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{3}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{4}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{5}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{6}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{7}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{8}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{9}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{10}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{11}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{12}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{13}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{14}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{15}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{16}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{17}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{18}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{19}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{20}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{21}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{22}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{23}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{24}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{25}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{26}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{27}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{28}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{29}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
+
+:day{30}
+	encount{0, 1, "Cafeteria"}
+	encount{2, "Corridor"}
+	encount{3, "Library"}
+	encount{4, "ClassRoom2"}
