@@ -1,0 +1,26 @@
+﻿#「ヘビの抜け殻」の購入設定
+
+#金額の条件分岐
+BRANCH "[68] == 1"
+
+DIALOG "売り切れました。" "はい"
+
+ELSEBRANCH
+
+BRANCH "[4] >= 5000"
+
+DIALOG "ヘビの抜け殻を購入しました。" "はい"
+
+#5000円支払う
+VALUE_SET 4 "[4] - 5000"
+
+#アイテム追加
+ITEM_ADD 7
+
+ELSEBRANCH
+
+DIALOG "お金が足りない！" "はい"
+
+ENDBRANCH
+
+ENDBRANCH

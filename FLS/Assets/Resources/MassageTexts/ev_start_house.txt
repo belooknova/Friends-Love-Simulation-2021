@@ -1,0 +1,19 @@
+﻿BGMFADE "退屈の平穏" 1 1 WAIT
+DAYTAG IN
+
+#行動コスト(実数変数3番)をリセット
+#週末は2ポイント
+
+BRANCH "c([1]/6) % 7 == 0"
+	VALUE_SET 3 2
+ELSEBRANCH
+	BRANCH "c([1]/6) == 15"
+		VALUE_SET 3 2
+	ELSEBRANCH
+		VALUE_SET 3 1
+	ENDBRANCH
+ENDBRANCH
+
+#画面をフェードイン
+FADE 0.5 0 0 0 0 WAIT
+
