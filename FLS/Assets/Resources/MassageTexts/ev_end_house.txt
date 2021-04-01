@@ -1,4 +1,0 @@
-﻿DAYTAG OUT
-
-#画面をフェードアウト
-FADE 0.5 BLACK WAIT
