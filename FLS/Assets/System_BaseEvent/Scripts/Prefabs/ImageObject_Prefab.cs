@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Manager.Image {
+namespace FLS.ImageObj {
 
     public sealed class ImageObject_Prefab : MonoBehaviour
     {

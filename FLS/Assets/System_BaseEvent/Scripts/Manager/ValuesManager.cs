@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
+using System.Text.RegularExpressions;
 
 public sealed class ValuesManager : MonoBehaviour
 {
     public static ValuesManager instance;
 
+    private SaveableData data;
     private float[] values;
     private string[] texts;
     private TalkEventManager TeManager;
@@ -26,6 +29,7 @@ public sealed class ValuesManager : MonoBehaviour
     private void Start()
     {
         TeManager = TalkEventManager.instance;
+        data = GameManager.instance.Get_SaveData();
 
         int[] vs = { 256, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         Set_Values(Startup(255));
@@ -78,7 +82,25 @@ public sealed class ValuesManager : MonoBehaviour
             (ref int count, OrderParametor par) => Order_set_text(ref count, par)
             ) ;
 
-    }
+        talk.Order_Registration("TEXTC_SET", //デコード時の設定
+            (int count, OrderParametor par, string[] arg) =>
+            {
+                if (arg.Length == 3)
+                {
+                    par.parInt.Add(int.Parse(arg[1]));
+                    par.parInt.Add(int.Parse(arg[2]));
+
+                    return true;
+                }
+
+                return false;
+            },
+
+            //実行内容
+            (ref int count, OrderParametor par) => Order_set_textc(ref count, par)
+            );
+
+            }
 
     /// <summary>
     /// トークイベント命令用・数値変数代入
@@ -119,6 +141,21 @@ public sealed class ValuesManager : MonoBehaviour
         count++;
     }
 
+    public void Order_set_textc(ref int count, OrderParametor par)
+    {
+        int oindex = par.parInt[0];
+        int index = par.parInt[1];
+
+        //Debug.LogFormat("[ValusManager] {0}番の文字列変数に{1}を代入", index, text);
+
+        if (!Set_Text_Convert(oindex, index))
+        {
+            Debug.LogErrorFormat("[ValusManager] 代入に失敗");
+        }
+
+        count++;
+    }
+
     /// <summary>
     /// 数値の初期化
     /// </summary>
@@ -131,7 +168,8 @@ public sealed class ValuesManager : MonoBehaviour
 
     public void Set_Values(float[] vs)
     {
-        values = vs;
+
+        data.values = vs;
     }
 
     public bool Set_Value(int index, float value)
@@ -189,7 +227,7 @@ public sealed class ValuesManager : MonoBehaviour
 
     public void Set_Texts(string[] texts)
     {
-        this.texts = texts;
+         data.texts= texts;
     }
 
     public bool Set_Text(int index, string text)
@@ -216,6 +254,71 @@ public sealed class ValuesManager : MonoBehaviour
             return texts[index];
         }
         return "";
+    }
+
+    public bool Set_Text_Convert(int inputIndex, int outIndex)
+    {
+        string _text = Get_Text(inputIndex);
+
+        Convert_Value(ref _text);
+        Convert_Value_Float(ref _text);
+        Convert_Text(ref _text);
+        return Set_Text(outIndex, _text);
+    }
+
+    private void Convert_Value(ref string _formale)
+    {
+        while (true)
+        {
+            Match match = Regex.Match(_formale, @"\\v\[\d{1,4}\]");
+            if (match.Success)
+            {
+                Debug.Log("成功");
+                StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
+                int value = ValuesManager.instance.Get_Value(int.Parse(sb.ToString()));
+                _formale = Regex.Replace(_formale, new StringBuilder(@"\\v\[").Append(sb.ToString()).Append(@"\]").ToString(), value.ToString());
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
+    private void Convert_Text(ref string _formale)
+    {
+        while (true)
+        {
+            Match match = Regex.Match(_formale, @"\\t\[\d{1,4}\]");
+            if (match.Success)
+            {
+                StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
+                string value = ValuesManager.instance.Get_Text(int.Parse(sb.ToString()));
+                _formale = Regex.Replace(_formale, new StringBuilder(@"\\t\[").Append(sb.ToString()).Append(@"\]").ToString(), value);
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
+    private void Convert_Value_Float(ref string _formale)
+    {
+        while (true)
+        {
+            Match match = Regex.Match(_formale, @"\\f\[\d{1,4}\]");
+            if (match.Success)
+            {
+                StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
+                float value = ValuesManager.instance.Get_Value_Float(int.Parse(sb.ToString()));
+                _formale = Regex.Replace(_formale, new StringBuilder(@"\\f\[").Append(sb.ToString()).Append(@"\]").ToString(), value.ToString());
+            }
+            else
+            {
+                break;
+            }
+        }
     }
 
     private float[] Startup(int max)
