@@ -3,76 +3,73 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FLS.Message
+public sealed class Message_Button : MonoBehaviour
 {
-    public sealed class Message_Button : MonoBehaviour
+    private EventWindowManager EwManager;
+    public enum State { Auto, Skip, Log, OffLog, Menu }
+    public State state;
+
+    [SerializeField]
+    private Toggle toggle;
+
+    private void Start()
     {
-        private EventWindowManager EwManager;
-        public enum State { Auto, Skip, Log, OffLog, Menu }
-        public State state;
+        EwManager = EventWindowManager.instance;
+    }
 
-        [SerializeField]
-        private Toggle toggle;
-
-        private void Start()
+    private void Update()
+    {
+        /*
+        switch (state)
         {
-            EwManager = EventWindowManager.instance;
-        }
+            case State.Auto:
+                if (EwManager.message_auto != toggle.isOn)
+                {
+                    toggle.isOn = EwManager.message_auto;
+                }
+                break;
+            case State.Skip:
+                if (EwManager.message_skip != toggle.isOn)
+                {
+                    toggle.isOn = EwManager.message_skip;
+                }
+                break;
+        }*/
+    }
 
-        private void Update()
-        {
-            /*
-            switch (state)
-            {
-                case State.Auto:
-                    if (EwManager.message_auto != toggle.isOn)
-                    {
-                        toggle.isOn = EwManager.message_auto;
-                    }
-                    break;
-                case State.Skip:
-                    if (EwManager.message_skip != toggle.isOn)
-                    {
-                        toggle.isOn = EwManager.message_skip;
-                    }
-                    break;
-            }*/
-        }
+    public void Auto_Button()
+    {
+        EwManager.message_auto = !EwManager.message_auto;
+        EwManager.message_skip = false;
+        //if (toggle.isOn) { toggle.isOn = false; GetComponent<Toggle>().isOn = true; }
+        
+        //Debug.Log("Auto");
+    }
 
-        public void Auto_Button()
-        {
-            EwManager.message_auto = !EwManager.message_auto;
-            EwManager.message_skip = false;
-            //if (toggle.isOn) { toggle.isOn = false; GetComponent<Toggle>().isOn = true; }
+    public void Skip_Button()
+    {
+        
+        EwManager.message_skip = !EwManager.message_skip;
+        EwManager.message_auto = false;
+        //if (toggle.isOn) { toggle.isOn = false; GetComponent<Toggle>().isOn = true; }
 
-            //Debug.Log("Auto");
-        }
+        //Debug.Log("Skip");
+    }
 
-        public void Skip_Button()
-        {
+    public void Log_Button()
+    {
+        //Debug.Log("Log");
+        LogManager.instance.Display_Log();
+    }
 
-            EwManager.message_skip = !EwManager.message_skip;
-            EwManager.message_auto = false;
-            //if (toggle.isOn) { toggle.isOn = false; GetComponent<Toggle>().isOn = true; }
+    public void LogOff_Button()
+    {
+        //Debug.Log("OFFLog");
+        LogManager.instance.NoDisplay_Log();
+    }
 
-            //Debug.Log("Skip");
-        }
-
-        public void Log_Button()
-        {
-            //Debug.Log("Log");
-            LogManager.instance.Display_Log();
-        }
-
-        public void LogOff_Button()
-        {
-            //Debug.Log("OFFLog");
-            LogManager.instance.NoDisplay_Log();
-        }
-
-        public void Menu_Button()
-        {
-            Debug.Log("Menu");
-        }
+    public void Menu_Button()
+    {
+        Debug.Log("Menu");
     }
 }

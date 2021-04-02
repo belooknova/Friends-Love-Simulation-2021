@@ -11,6 +11,7 @@ public class ManeyTagManager : MonoBehaviour
     private Text textMain;
 
     private int maney = 0;
+    private bool onCoroutine = false;
 
     public bool DisplayManey = false;
 
@@ -60,6 +61,8 @@ public class ManeyTagManager : MonoBehaviour
             text.color = Color.red;
             text.text = "-" + Mathf.Abs(maney - buff).ToString();
         }
+
+        onCoroutine = true;
 
 
         for(int i=0; i < Mathf.Abs(maney-buff); i+=Mathf.CeilToInt(Mathf.Abs(maney - buff)/10f))

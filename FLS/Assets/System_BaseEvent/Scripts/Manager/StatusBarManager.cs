@@ -2,105 +2,102 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FLS.StatusBar
+public class StatusBarManager : MonoBehaviour
 {
-    public class StatusBarManager : MonoBehaviour
+    public static StatusBarManager instance;
+
+    private TalkEventManager TeManager;
+
+    [SerializeField]
+    private Animator dayAnimator;
+    [SerializeField]
+    private Animator maneyAnimator;
+    private ManeyTagManager tagManager;
+
+    private void Awake()
     {
-        public static StatusBarManager instance;
-
-        private TalkEventManager TeManager;
-
-        [SerializeField]
-        private Animator dayAnimator;
-        [SerializeField]
-        private Animator maneyAnimator;
-        private ManeyTagManager tagManager;
-
-        private void Awake()
+        if (instance == null)
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        TeManager = TalkEventManager.instance;
+        tagManager = maneyAnimator.gameObject.GetComponent<ManeyTagManager>();
+    }
+
+    private void Order_daytag(ref int count, OrderParametor par)
+    {
+        int mode = par.parInt[0];
+
+        if (mode == 0)
+        {
+            DayTag_In();
+        }
+        else
+        {
+            DayTag_Out();
         }
 
-        // Start is called before the first frame update
-        void Start()
+        count++;
+    }
+
+    private void Order_Maneytag(ref int count, OrderParametor par)
+    {
+        int mode = par.parInt[0];
+
+        if (mode == 0)
         {
-            TeManager = TalkEventManager.instance;
-            tagManager = maneyAnimator.gameObject.GetComponent<ManeyTagManager>();
+            ManeyTag_In();
+        }
+        else
+        {
+            ManeyTag_Out();
         }
 
-        private void Order_daytag(ref int count, OrderParametor par)
+        count++;
+    }
+
+    public void DayTag_In()
+    {
+        if (dayAnimator != null)
         {
-            int mode = par.parInt[0];
+            if (dayAnimator)
 
-            if (mode == 0)
-            {
-                DayTag_In();
-            }
-            else
-            {
-                DayTag_Out();
-            }
-
-            count++;
+            dayAnimator.SetInteger("Stat", 2);
         }
+    }
 
-        private void Order_Maneytag(ref int count, OrderParametor par)
+    public void DayTag_Out()
+    {
+        if (dayAnimator != null)
         {
-            int mode = par.parInt[0];
-
-            if (mode == 0)
-            {
-                ManeyTag_In();
-            }
-            else
-            {
-                ManeyTag_Out();
-            }
-
-            count++;
+            dayAnimator.SetInteger("Stat", 1);
         }
+    }
 
-        public void DayTag_In()
+    public void ManeyTag_In()
+    {
+        if (dayAnimator != null)
         {
-            if (dayAnimator != null)
-            {
-                if (dayAnimator)
-
-                    dayAnimator.SetInteger("Stat", 2);
-            }
+            maneyAnimator.SetInteger("Stat", 2);
+            tagManager.DisplayManey = true; //表示させている
         }
+    }
 
-        public void DayTag_Out()
+    public void ManeyTag_Out()
+    {
+        if (dayAnimator != null)
         {
-            if (dayAnimator != null)
-            {
-                dayAnimator.SetInteger("Stat", 1);
-            }
-        }
-
-        public void ManeyTag_In()
-        {
-            if (dayAnimator != null)
-            {
-                maneyAnimator.SetInteger("Stat", 2);
-                tagManager.DisplayManey = true; //表示させている
-            }
-        }
-
-        public void ManeyTag_Out()
-        {
-            if (dayAnimator != null)
-            {
-                maneyAnimator.SetInteger("Stat", 1);
-                tagManager.DisplayManey = false; //表示させていない
-            }
+            maneyAnimator.SetInteger("Stat", 1);
+            tagManager.DisplayManey = false; //表示させていない
         }
     }
 }

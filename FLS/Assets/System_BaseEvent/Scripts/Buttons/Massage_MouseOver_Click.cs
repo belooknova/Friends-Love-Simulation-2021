@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FLS.Message
+//[RequireComponent(typeof(Image))]
+public sealed class Massage_MouseOver_Click : MonoBehaviour
 {
-    
-    //[RequireComponent(typeof(Image))]
-    public sealed class Massage_MouseOver_Click : MonoBehaviour
+    public void Click_Massage()
     {
-        public void Click_Massage()
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                EventWindowManager.instance.MS_Push_NextFlag();
-            }
+            EventWindowManager.instance.MS_Push_NextFlag();
         }
     }
 }
