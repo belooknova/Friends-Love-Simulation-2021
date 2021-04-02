@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 
+
 public class OrderParametor
 {
     public List<int> parInt = new List<int>();
@@ -67,7 +68,7 @@ public class TalkEventManager : MonoBehaviour
         yield return null;
 
 
-        EventReservation("00TEST");
+        //EventReservation("00TEST");
         //EventReservation("Test7");
     }
 
@@ -99,7 +100,7 @@ public class TalkEventManager : MonoBehaviour
         {
             var datas = masterDatas[0].datas;
 
-            if (CullentIndex + 1 < datas.Count) 
+            if (CullentIndex + 1 < datas.Count)
             {
                 output = datas[CullentIndex + 1].tType;
             }
@@ -113,7 +114,7 @@ public class TalkEventManager : MonoBehaviour
         {
             var datas = masterDatas[0].datas;
 
-            if (CullentIndex + 1 < datas.Count) 
+            if (CullentIndex + 1 < datas.Count)
             {
                 output = datas[CullentIndex + 1].tType;
             }
@@ -261,7 +262,7 @@ public class TalkEventManager : MonoBehaviour
     private TalkEventData Decoding(string[] formale, int cullentCount)
     {
         if (formale.Length == 0) return null;
-        
+
         if (formale.Length > 0)
         {
             if (orderDatas.ContainsKey(formale[0]))
@@ -274,7 +275,7 @@ public class TalkEventManager : MonoBehaviour
 
                 Debug.LogFormat("cullentCount: {0}  datas.Count: {1}", cullentCount, setting_masterData.datas.Count);
 
-                if(!orderData.decode(setting_masterData.datas.Count, parametor, formale))
+                if (!orderData.decode(setting_masterData.datas.Count, parametor, formale))
                 {
                     return null;
                 }
@@ -408,7 +409,7 @@ public class TalkEventManager : MonoBehaviour
     {
         #region システム
         Order_Registration("WAIT", //『n秒待機する』
-            //デコード時の設定
+                                    //デコード時の設定
             (int count, OrderParametor par, string[] arg) =>
                 {
                     if (arg.Length == 2)
@@ -509,9 +510,9 @@ public class TalkEventManager : MonoBehaviour
                 par.parString.Add(arg[1]);
 
                 branchEvent.Add(par); //分岐をプラス
-                                      //branchEvent[branchEvent.Count - 1].parInt
+                                        //branchEvent[branchEvent.Count - 1].parInt
 
-                return true;
+            return true;
 
             }
 
@@ -524,8 +525,8 @@ public class TalkEventManager : MonoBehaviour
 
             var v = ValuesManager.instance.Get_Values();
             bool b = new Parser(ParserType.Bool, formale).Eval(v);
-            //Debug.LogFormat("count: {0}  tarCount: {1}", count, data.regInt[0]);
-            if (b)
+        //Debug.LogFormat("count: {0}  tarCount: {1}", count, data.regInt[0]);
+        if (b)
             {
                 count++;
             }
@@ -710,4 +711,10 @@ public sealed class Talk_OrderData
     public Type_TalkEventData type;
     public OrderDecode decode;
     public OrderExec order;
+}
+
+public sealed class Savealbe_EventData
+{
+    public string path;
+    public int cullentIndex;
 }

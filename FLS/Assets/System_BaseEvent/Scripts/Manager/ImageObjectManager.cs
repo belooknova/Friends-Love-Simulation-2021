@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine;
 
-namespace Manager.Image
+namespace FLS.ImageObj
 {
+
     public class ImageObjectManager : MonoBehaviour
     {
         public static ImageObjectManager instance;

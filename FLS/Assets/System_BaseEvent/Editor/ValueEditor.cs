@@ -9,7 +9,6 @@ using UnityEditorInternal;
 [CustomEditor(typeof(ValueEditor))]
 public sealed class ValueEditor : EditorWindow
 {
-    private int intter = 0;
     private ValuesManager vm;
     private float[] dmy_values;
     private string[] dmy_strings;

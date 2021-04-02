@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FLS.Message;
 
 public class Dialog_Prefab : MonoBehaviour
 {
