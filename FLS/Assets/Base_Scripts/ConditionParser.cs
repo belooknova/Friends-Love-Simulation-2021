@@ -606,10 +606,6 @@ public sealed class Parser
         bool signFlag = false; //前の文字が符号
         int layer = 0;
         
-
-        
-        string s2 = "";
-
         //リスト作成
         List<string> vs = new List<string>();
         foreach (string s1 in Regex.Split(formale, @"(f\(|c\(|\(|\)|&&|\|\||<<|>>|==|!=|<=|>=|<|>|\+|\-|\*|/|%|&|\||\^)"))
