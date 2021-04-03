@@ -198,7 +198,7 @@ public sealed class ValuesManager : MonoBehaviour
 
     public float[] Get_Values()
     {
-        return values;
+        return data.values;
     }
 
     public int Get_Value(int index)

@@ -7,8 +7,7 @@ using System.Text;
 
 public class MetaTextParser
 {
-    [HideInInspector]
-    public readonly List<List<string>> MetaTextData = new List<List<string>>();
+    private readonly List<List<string>> MetaTextData = new List<List<string>>();
 
     public MetaTextParser(string metaText)
     {
@@ -138,7 +137,7 @@ public class MetaTextParser
         }
     }
 
-    List<List<string>> Eval(string formale)
+    public List<List<string>> Eval()
     {
         if (MetaTextData != null)
         {

@@ -1,4 +1,22 @@
-﻿
+﻿EVENTEND
+
+IMGO_VAL "ground_img" "BackImg/backimg_kote0"
+IMGO_VAL_POSITION "ground_img" 0 0 20
+IMGO_VAL_SCALE "ground_img" 1.5 1.5 1
+IMGO_SET "ground_img"
+
+FADEOUT
+MESS "表示順テスト"
+DIALOG "表示" はい
+FADEIN
+
+FADE 2 0 255 255 255 WAIT 
+FADEIN
+
+IMGO_REMOVE "ground_img"
+
+EVENTEND
+
 IMGO_VAL "ground_img" "BackImg/backimg_kote0"
 IMGO_VAL_POSITION "ground_img" 0 0 20
 IMGO_VAL_SCALE "ground_img" 1.5 1.5 1
