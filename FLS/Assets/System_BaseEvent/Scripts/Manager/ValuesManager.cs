@@ -9,8 +9,8 @@ public sealed class ValuesManager : MonoBehaviour
     public static ValuesManager instance;
 
     private SaveableData data;
-    private float[] values;
-    private string[] texts;
+    private float[] Values { get{ return data.values; } }
+    private string[] Texts { get{ return data.texts; } }
     private TalkEventManager TeManager;
 
     private void Awake()
@@ -32,7 +32,7 @@ public sealed class ValuesManager : MonoBehaviour
         data = GameManager.instance.Get_SaveData();
 
         int[] vs = { 256, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        Set_Values(Startup(255));
+        Set_Values(Startup(513));
         string[] ts = { "愚者", "魔術師", "戦車", "女教皇", "皇帝" };
         Set_Texts(Startup_str(64));
         SetUp_Order();
@@ -49,7 +49,7 @@ public sealed class ValuesManager : MonoBehaviour
             {
                 if (arg.Length == 3)
                 {
-                    par.parInt.Add(int.Parse(arg[1]));
+                    par.parString.Add(arg[1]);
                     par.parString.Add(arg[2]);
 
                     return true;
@@ -69,7 +69,7 @@ public sealed class ValuesManager : MonoBehaviour
             {
                 if (arg.Length == 3)
                 {
-                    par.parInt.Add(int.Parse(arg[1]));
+                    par.parString.Add(arg[1]);
                     par.parString.Add(arg[2]);
 
                     return true;
@@ -108,11 +108,11 @@ public sealed class ValuesManager : MonoBehaviour
     /// <param name="eo"></param>
     public void Oreder_set_value(ref int count, OrderParametor par)
     {
-        string formale = par.parString[0];
-        int index = par.parInt[0];
+        string formale = par.parString[1];
+        int index = new Parser(par.parString[0]).Eval_Value(Values);
 
         Parser parser = new Parser(ParserType.Number, formale);
-        float v = parser.Eval_Value(values);
+        float v = parser.Eval_Value(Values);
 
         if (!Set_Value(index, v))
         {
@@ -128,8 +128,8 @@ public sealed class ValuesManager : MonoBehaviour
     /// <param name="eo"></param>
     public void Order_set_text(ref int count, OrderParametor par)
     {
-        string text = par.parString[0];
-        int index = par.parInt[0];
+        string text = par.parString[1];
+        int index = new Parser(par.parString[0]).Eval_Value(Values);
 
         //Debug.LogFormat("[ValusManager] {0}番の文字列変数に{1}を代入", index, text);
 
@@ -174,11 +174,11 @@ public sealed class ValuesManager : MonoBehaviour
 
     public bool Set_Value(int index, float value)
     {
-        if (index < values.Length)
+        if (index < Values.Length)
         {
             Debug.LogWarningFormat("[ValusManager] {0}番の変数に{1}を代入", index, value);
 
-            values[index] = value;
+            Values[index] = value;
             return true;
         }
         return false;
@@ -203,9 +203,9 @@ public sealed class ValuesManager : MonoBehaviour
 
     public int Get_Value(int index)
     {
-        if (index < values.Length)
+        if (index < Get_Values().Length)
         {
-            return (int)values[index];
+            return (int)Values[index];
         }
         else
         {
@@ -215,9 +215,9 @@ public sealed class ValuesManager : MonoBehaviour
 
     public float Get_Value_Float(int index)
     {
-        if (index < values.Length)
+        if (index < Get_Values().Length)
         {
-            return values[index];
+            return Values[index];
         }
         else
         {
@@ -232,11 +232,11 @@ public sealed class ValuesManager : MonoBehaviour
 
     public bool Set_Text(int index, string text)
     {
-        if (index < texts.Length)
+        if (index < Texts.Length)
         {
             Debug.LogFormat("[ValusManager] {0}番の文字列変数に{1}を代入", index, text);
 
-            texts[index] = text;
+            Texts[index] = text;
             return true;
         }
         return false;
@@ -244,14 +244,14 @@ public sealed class ValuesManager : MonoBehaviour
 
     public string[] Get_Texts()
     {
-        return texts;
+        return Texts;
     }
 
     public string Get_Text(int index)
     {
-        if (index < texts.Length)
+        if (index < Texts.Length)
         {
-            return texts[index];
+            return Texts[index];
         }
         return "";
     }

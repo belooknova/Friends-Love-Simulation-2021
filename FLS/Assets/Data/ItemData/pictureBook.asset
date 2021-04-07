@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b21c199f958cd6a448eaa1ee73ffc086, type: 3}
+  m_Name: pictureBook
+  m_EditorClassIdentifier: 
+  itemName: "\u7D75\u672C"
+  description: "\u305F\u307E\u306B\u8AAD\u307F\u305F\u304F\u306A\u308B\u3001\u304B\u3082\u3002"
+  eventPath: ItemFolder/pictureBook
