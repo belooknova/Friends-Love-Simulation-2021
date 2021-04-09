@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cacheType: 1
-  lastUpdatedAtString: 2021-04-07T14:08:25.672+09:00
-  initializedAtString: 2021-04-06T13:17:29.663+09:00
+  lastUpdatedAtString: 2021-04-09T14:39:32.083+09:00
+  initializedAtString: 2021-04-08T23:33:42.163+09:00
   currentGitRemote:
     name: origin
     url: https://github.com/belooknova/Friends-Love-Simulation-2021.git
