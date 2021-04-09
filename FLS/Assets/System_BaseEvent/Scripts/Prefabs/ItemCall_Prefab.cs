@@ -19,13 +19,19 @@ namespace FLS.Item
         private int itemCount = 0;
         private ItemManager im;
         private string eventPath;
-        
+
+        private void Update()
+        {
+            countText.text = ValuesManager.instance.Get_Value(im.IndexForValue(index)).ToString();
+        }
 
         public void StartUp(ItemManager im, int index)
         {
+            this.index = index;
             ItemStaticData data = im.Get_ItemData(index);
             nameText.text = data.itemName;
             descriptionText.text = data.description;
+
             eventPath = data.eventPath;
             this.im = im;
         }
@@ -41,6 +47,7 @@ namespace FLS.Item
             if (!talk.IsReservation)
             {
                 TalkEventManager.instance.EventReservation(eventPath);
+                TalkEventManager.instance.EventReservation(im.itemInventryUpdatePath);
             }
         }
 
@@ -52,7 +59,15 @@ namespace FLS.Item
 
             if (!talk.IsReservation)
             {
-                TalkEventManager.instance.EventReservation(im.itemDeletePath);
+                ItemStaticData data = im.Get_ItemData(index);
+                if (data.deletePath == "" || data.deletePath == "NONE")
+                {
+                    TalkEventManager.instance.EventReservation(im.itemDeletePath);
+                }
+                else
+                {
+                    TalkEventManager.instance.EventReservation(data.deletePath);
+                }
             }
         }
     }

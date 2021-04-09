@@ -34,7 +34,7 @@ public sealed class ValuesManager : MonoBehaviour
         int[] vs = { 256, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         Set_Values(Startup(513));
         string[] ts = { "愚者", "魔術師", "戦車", "女教皇", "皇帝" };
-        Set_Texts(Startup_str(64));
+        Set_Texts(Startup_str(255));
         SetUp_Order();
 
     }
@@ -109,7 +109,7 @@ public sealed class ValuesManager : MonoBehaviour
     public void Oreder_set_value(ref int count, OrderParametor par)
     {
         string formale = par.parString[1];
-        int index = new Parser(par.parString[0]).Eval_Value(Values);
+        int index = new Parser(ParserType.Number, par.parString[0]).Eval_Value(Values);
 
         Parser parser = new Parser(ParserType.Number, formale);
         float v = parser.Eval_Value(Values);
@@ -227,7 +227,7 @@ public sealed class ValuesManager : MonoBehaviour
 
     public void Set_Texts(string[] texts)
     {
-         data.texts= texts;
+        data.texts = texts;
     }
 
     public bool Set_Text(int index, string text)

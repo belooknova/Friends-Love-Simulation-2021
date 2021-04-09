@@ -25,5 +25,8 @@ namespace FLS.Item
         /// <summary> アイテムイベントのファイル名 </summary>
         public string eventPath = "";
 
+        /// <summary> アイテムを捨てるイベントのファイル名(設定しない場合は汎用イベント) </summary>
+        public string deletePath = "NONE";
+
     }
 }

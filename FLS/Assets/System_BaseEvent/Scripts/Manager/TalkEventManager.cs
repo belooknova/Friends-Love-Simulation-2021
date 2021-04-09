@@ -32,10 +32,13 @@ public class TalkEventManager : MonoBehaviour
 
     /// <summary> 実行中イベント数 </summary>
     public bool IsRunningEvent { get; private set; } = false;
+    private bool isEventParsing = false;
 
 
     //======《イベント関係》====================================================
 
+
+    private readonly Queue<string> pathParserCodes = new Queue<string>();
     /// <summary> 実行イベントリスト </summary>
     private readonly List<TalkEventMasterData> masterDatas = new List<TalkEventMasterData>();
 
@@ -68,14 +71,28 @@ public class TalkEventManager : MonoBehaviour
         yield return null;
 
 
-        //EventReservation("00TEST");
+        
         //EventReservation("Test7");
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("masterDatasCount: " + masterDatas.Count);
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            EventReservation("00TEST");
+        }
+
+        //命令解析
+        if (pathParserCodes.Count > 0)
+        {
+            if (!isEventParsing)
+            {
+                StartCoroutine(C_EventReservation(pathParserCodes.Dequeue()));
+            }
+        }
+
+        //実行
         if (masterDatas.Count > 0)
         {
             IsReservation = true;
@@ -149,12 +166,14 @@ public class TalkEventManager : MonoBehaviour
     /// <param name="path"></param>
     public void EventReservation(string path)
     {
-        StartCoroutine(C_EventReservation(path));
+        pathParserCodes.Enqueue(path);
+        //StartCoroutine(C_EventReservation(path));
     }
 
     private IEnumerator C_EventReservation(string path)
     {
-        yield return null;
+        //yield return null;
+        isEventParsing = true;
 
         if (LoadTextLine(out string[] texts, path))
         {
@@ -180,10 +199,12 @@ public class TalkEventManager : MonoBehaviour
             }
 
             setting_masterData = null;
+            Debug.LogFormat("[{0}]を登録", path);
             masterDatas.Add(masterData);
         }
 
         IsNowloding = false;
+        isEventParsing = false;
     }
 
     /// <summary>
@@ -317,7 +338,6 @@ public class TalkEventManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator RunEvent(List<TalkEventData> eventDatas)
     {
-        //Debug.Log("イベント開始");
         IsRunningEvent = true;
 
         int count = 0;

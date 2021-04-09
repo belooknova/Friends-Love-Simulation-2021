@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
-using System;
+using System.Text;
 
 namespace FLS.Message
 {
@@ -187,6 +187,13 @@ namespace FLS.Message
                     {
                         string m_name = par.parString[1];
                         string message = par.parString[0];
+                        Convert_Value(ref message);
+                        Convert_Value_Float(ref message);
+                        Convert_Text(ref message);
+                        Convert_Value(ref m_name);
+                        Convert_Value_Float(ref m_name);
+                        Convert_Text(ref m_name);
+
                         int mode = par.parInt[0];
 
                         MS_Waiting(m_name, message, mode);
@@ -312,7 +319,7 @@ namespace FLS.Message
             }
 
             //次のイベントオブジェクトを読み込む
-            message_name = ReplaceCode(m_name);
+            message_name = m_name;
             messageSplit = MS_Split(mess);
             message_nextFlag = false;
 
@@ -525,8 +532,6 @@ namespace FLS.Message
             bool gmode = false;
             string buff = "";
 
-            mass = ReplaceCode(mass);
-
             foreach (char c in mass)
             {
                 if (c == '<')
@@ -613,6 +618,67 @@ namespace FLS.Message
             return list;
         }
 
+        private void Convert_Value(ref string _formale)
+        {
+            while (true)
+            {
+                Match match = Regex.Match(_formale, @"\\v\[\d{1,4}\]|<v=\d{1,4}>");
+                if (match.Success)
+                {
+                    Debug.Log("成功");
+                    StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
+                    int value = ValuesManager.instance.Get_Value(int.Parse(sb.ToString()));
+                    _formale = Regex.Replace(_formale, new StringBuilder(@"\\v\[").Append(sb.ToString()).Append(@"\]").ToString(), value.ToString());
+                    _formale = Regex.Replace(_formale, new StringBuilder(@"<v=").Append(sb.ToString()).Append(@">").ToString(), value.ToString());
+
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        private void Convert_Text(ref string _formale)
+        {
+            while (true)
+            {
+                Match match = Regex.Match(_formale, @"\\t\[\d{1,4}\]|<s=\d{1,4}>");
+                if (match.Success)
+                {
+                    StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
+                    string value = ValuesManager.instance.Get_Text(int.Parse(sb.ToString()));
+                    _formale = Regex.Replace(_formale, new StringBuilder(@"\\t\[").Append(sb.ToString()).Append(@"\]").ToString(), value);
+                    _formale = Regex.Replace(_formale, new StringBuilder(@"<s=").Append(sb.ToString()).Append(@">").ToString(), value.ToString());
+
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        private void Convert_Value_Float(ref string _formale)
+        {
+            while (true)
+            {
+                Match match = Regex.Match(_formale, @"\\f\[\d{1,4}\]|<f=\d{1,4}>");
+                if (match.Success)
+                {
+                    StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
+                    float value = ValuesManager.instance.Get_Value_Float(int.Parse(sb.ToString()));
+                    _formale = Regex.Replace(_formale, new StringBuilder(@"\\f\[").Append(sb.ToString()).Append(@"\]").ToString(), value.ToString());
+                    _formale = Regex.Replace(_formale, new StringBuilder(@"<f=").Append(sb.ToString()).Append(@">").ToString(), value.ToString());
+
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
         public static string ReplaceCode_Dialog(string mass)
         {
             string outText = mass;
@@ -626,10 +692,12 @@ namespace FLS.Message
         {
             string outText = mass;
 
+            
+
             //値を書き換える
             if (ValuesManager.instance != null)
             {
-                MatchCollection match_values = Regex.Matches(mass, @"\\v\[\d{1,4}\]|<v=\d{1,4}>");
+                MatchCollection match_values = Regex.Matches(mass, @"<v=\d{1,4}>");
                 foreach (Match m in match_values)
                 {
                     string ms = "";
@@ -643,7 +711,7 @@ namespace FLS.Message
                     outText = regex.Replace(outText, ValuesManager.instance.Get_Value(index).ToString());
                 }
 
-                MatchCollection match_float = Regex.Matches(mass, @"\\f\[\d{1,4}\]|<f=\d{1,4}>");
+                MatchCollection match_float = Regex.Matches(mass, @"<f=\d{1,4}>");
                 foreach (Match m in match_float)
                 {
                     string ms = "";
@@ -657,7 +725,7 @@ namespace FLS.Message
                     outText = regex.Replace(outText, ValuesManager.instance.Get_Value_Float(index).ToString());
                 }
 
-                MatchCollection match_string = Regex.Matches(mass, @"\\t\[\d{1,4}\]|<s=\d{1,4}>");
+                MatchCollection match_string = Regex.Matches(mass, @"<s=\d{1,4}>");
                 foreach (Match m in match_string)
                 {
                     string ms = "";
@@ -674,5 +742,7 @@ namespace FLS.Message
 
             return outText;
         }
+
+
     }
 }

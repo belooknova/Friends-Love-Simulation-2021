@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: "\u30D8\u30D3\u306E\u629C\u3051\u6BBB"
   description: "\u91D1\u904B\u304C\u4E0A\u304C\u308B\u3068\u304B\u306A\u3093\u304B\u305D\u3046\u3044\u3046\u3084\u3064\u3002"
-  eventPath: ItemFolder/snake
+  eventPath: ItemFolder/SnakeUse
+  deletePath: ItemFolder/SnakeDel

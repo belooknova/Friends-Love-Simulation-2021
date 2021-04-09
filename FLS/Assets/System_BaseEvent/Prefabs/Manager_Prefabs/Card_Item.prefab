@@ -540,7 +540,7 @@ MonoBehaviour:
   index: 0
   nameText: {fileID: 6961926810695494158}
   descriptionText: {fileID: 6961926809436619067}
-  countText: {fileID: 0}
+  countText: {fileID: 4510246250376446932}
   itemCount: 0
 --- !u!1 &6961926809696374592
 GameObject:

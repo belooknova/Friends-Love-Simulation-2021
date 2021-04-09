@@ -1,4 +1,24 @@
-﻿EVENTEND
+﻿
+DIALOG "表示" はい
+
+EVENTEND
+
+MESS "ゲームデバッカーテスト"
+MESS "VM変更テスト"
+VALUE_SET 8 2
+
+VALUE_SET 1 2
+MESS "1番=2"
+VALUE_SET 1 4
+MESS "1番=4"
+
+MESS "GD変更テスト"
+MESS "2番=\v[2] <v=2>"
+VALUE_SET 2 "[2]+3"
+MESS "2番=\v[2]"
+MESS "2番=\v[2]"
+
+EVENTEND
 
 IMGO_VAL "ground_img" "BackImg/backimg_kote0"
 IMGO_VAL_POSITION "ground_img" 0 0 20

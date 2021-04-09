@@ -36,6 +36,11 @@ namespace FLS.Dialog
             SetUp_Order();
         }
 
+        private void Update()
+        {
+            
+        }
+
         private void SetUp_Order()
         {
             talk.Order_Registration("DIALOG_SET",
@@ -90,7 +95,6 @@ namespace FLS.Dialog
                 (ref int count, OrderParametor par) =>
                 {
                     int id = par.parInt[0];
-                    Debug.Log("Remove " + id);
                     Remove_Dialog_Event(id);
 
                     count++;
@@ -135,10 +139,10 @@ namespace FLS.Dialog
                 {
                     if (arg.Length == 4)
                     {
-                        string t1 = new StringBuilder("DIALOG_default ").
-                            Append(arg[1]).Append(" ").
-                            Append(arg[2]).Append(" ").
-                            Append(arg[3]).ToString();
+                        string t1 = new StringBuilder("DIALOG_default \"").
+                            Append(arg[1]).Append("\" \"").
+                            Append(arg[2]).Append("\" \"").
+                            Append(arg[3]).Append("\"").ToString();
 
                         talk.EventRegistration(t1);
                         talk.EventRegistration("VALUE_SET 121 0");
@@ -151,10 +155,10 @@ namespace FLS.Dialog
 
                     if (arg.Length == 3)
                     {
-                        string t1 = new StringBuilder("DIALOG_default ").
-                        Append(arg[1]).Append(" ").
-                        Append(arg[2]).Append(" ").
-                        Append("").ToString();
+                        string t1 = new StringBuilder("DIALOG_default \"").
+                            Append(arg[1]).Append("\" \"").
+                            Append(arg[2]).Append("\"").
+                            ToString();
 
                         talk.EventRegistration(t1);
                         talk.EventRegistration("VALUE_SET 121 0");

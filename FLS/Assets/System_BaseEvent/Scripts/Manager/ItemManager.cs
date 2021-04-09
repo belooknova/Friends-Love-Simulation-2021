@@ -10,6 +10,8 @@ namespace FLS.Item
         public static ItemManager instance;
 
         [SerializeField]
+        private int updateIndex = 100;
+        [SerializeField]
         private int valueBaseIndex = 130;
         [SerializeField]
         private const int dmpValueCount = 60;
@@ -31,8 +33,11 @@ namespace FLS.Item
 
         private bool isDisplay = false;
 
-        public string basePath = "/ItemFolder/";
-        public string itemDeletePath = "/ItemFolder/delete_item";
+        public string basePath = "ItemFolder/";
+        public string itemDeletePath = "/ItemFolder/_system_delete_item";
+        public string itemInventryUpdatePath = "/ItemFolder/_system_inventry_update";
+
+        public bool isItemEventing = false;
 
         private readonly List<ItemCall_Prefab> call_Prefabs = new List<ItemCall_Prefab>();
 
@@ -71,6 +76,12 @@ namespace FLS.Item
             if (Input.GetKeyDown(KeyCode.S))
             {
                 ExitInventry();
+            }
+
+            if (vm.Get_Value(updateIndex) == 1)
+            {
+                Update_Indentry();
+                vm.Set_Value(updateIndex, 0);
             }
         }
 
@@ -123,25 +134,30 @@ namespace FLS.Item
         {
             for (int i = 0; i < dmpValueCount; i++)
             {
-                if (vm.Get_Value(IndexForValue(i)) != dmpValues[i]) //異なる
+                var value = vm.Get_Value(IndexForValue(i));
+                if (value != dmpValues[i]) //異なる
                 {
-                    if (vm.Get_Value(IndexForValue(i)) > 0)
+                    if (value > 0)
                     {
                         var data = Search_ItemCall(i);
+                        Debug.Log(data);
                         if (data == null)
                         {
                             Set_ItemCell(i); //入手
                         }
                         else
                         {
-                            data.UpdateCount(vm.Get_Value(IndexForValue(i))); //増減
+                            data.UpdateCount(value); //増減
                         }
                     }
                     else
                     {
-                        Remove_ItemCall(i); //削除
+                        Remove_ItemCell(i); //削除
+
                     }
                 }
+
+                dmpValues[i] = value;
             }
         }
 
@@ -158,7 +174,7 @@ namespace FLS.Item
             return null;
         }
 
-        private void Remove_ItemCall(int index)
+        private void Remove_ItemCell(int index)
         {
             var data = Search_ItemCall(index);
             call_Prefabs.Remove(data);
@@ -167,22 +183,10 @@ namespace FLS.Item
 
         private void Set_ItemCell(int index)
         {
-            ItemCall_Prefab call = Instantiate(prefab_Item).GetComponent<ItemCall_Prefab>();
-            call.transform.SetParent(canves);
-            call.StartUp(this, index);
-            call_Prefabs.Add(call);
-        }
-
-        /// <summary>
-        /// ダンプ配列にアイテムの所持数をコピーする
-        /// </summary>
-        public void Copy_dmpValue()
-        {
-            var values = vm.Get_Values();
-            for (int i = 0; i < values.Length; i++)
-            {
-                dmpValues[i] = values[IndexForValue(i)];
-            }
+            ItemCall_Prefab cell = Instantiate(prefab_Item).GetComponent<ItemCall_Prefab>();
+            cell.transform.SetParent(canves);
+            cell.StartUp(this, index);
+            call_Prefabs.Add(cell);
         }
 
         /// <summary>
@@ -205,12 +209,12 @@ namespace FLS.Item
             talk.EventReservation(data.eventPath);
         }
 
-        private int IndexForItem(int valueIndex)
+        public int IndexForItem(int valueIndex)
         {
             return valueIndex - valueBaseIndex;
         }
 
-        private int IndexForValue(int itemIndex)
+        public int IndexForValue(int itemIndex)
         {
             return itemIndex + valueBaseIndex;
         }
