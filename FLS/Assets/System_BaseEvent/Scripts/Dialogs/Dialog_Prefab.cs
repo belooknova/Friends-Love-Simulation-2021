@@ -38,20 +38,20 @@ public class Dialog_Prefab : MonoBehaviour
 
         if (mode == 0) //ボタン二つ
         {
-            button_objects[0].GetComponentInChildren<Text>().text = EventWindowManager.ReplaceCode_Dialog(b1);
-            button_objects[1].GetComponentInChildren<Text>().text = EventWindowManager.ReplaceCode_Dialog(b2);
+            button_objects[0].GetComponentInChildren<Text>().text = Conversion_Text(b1);
+            button_objects[1].GetComponentInChildren<Text>().text = Conversion_Text(b2);
         }
         else if (mode == 1) //ボタン一つ
         {
             if (b1 != "")
             {
-                button_objects[0].GetComponentInChildren<Text>().text = EventWindowManager.ReplaceCode_Dialog(b1);
+                button_objects[0].GetComponentInChildren<Text>().text = Conversion_Text(b1);
                 button_objects[1].SetActive(false);
             }
 
             if (b2 != "")
             {
-                button_objects[0].GetComponentInChildren<Text>().text = EventWindowManager.ReplaceCode_Dialog(b2);
+                button_objects[0].GetComponentInChildren<Text>().text = Conversion_Text(b2);
                 button_objects[1].SetActive(false);
             }
         }
@@ -60,10 +60,7 @@ public class Dialog_Prefab : MonoBehaviour
     private void Set_Text(string text)
     {
         string t = text;
-        Convert_Char(ref t);
-        Convert_Value(ref t);
-        Convert_Value_Float(ref t);
-        Convert_Text(ref t);
+        t = Conversion_Text(t);
 
         if (t == "NONE")
         {
@@ -73,81 +70,41 @@ public class Dialog_Prefab : MonoBehaviour
         mainText.text = t;
     }
 
-    private void Convert_Char(ref string _formale)
+    private string Conversion_Text(string text)
     {
-        while (true)
+        string textout = text;
         {
-            Match match = Regex.Match(_formale, @"\\n");
+            Match match = Regex.Match(textout, @"\\t\[\d{1,4}\]|<s=\d{1,4}>");
             if (match.Success)
             {
-                //_formale = Regex.Replace(_formale, new StringBuilder(@"\\v\[").Append(sb.ToString()).Append(@"\]").ToString(), value.ToString());
-                _formale = Regex.Replace(_formale, @"\\n", '\n'.ToString());
-
-            }
-            else
-            {
-                break;
+                int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
+                var value = ValuesManager.instance.Get_Text(index);
+                textout = Regex.Replace(textout, @"\\t\[\d{1,4}\]|<s=\d{1,4}>", value);
             }
         }
-    }
 
-    private void Convert_Value(ref string _formale)
-    {
-        while (true)
         {
-            Match match = Regex.Match(_formale, @"\\v\[\d{1,4}\]|<v=\d{1,4}>");
+            Match match = Regex.Match(textout, @"\\v\[\d{1,4}\]|<v=\d{1,4}>");
             if (match.Success)
             {
-                StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
-                int value = ValuesManager.instance.Get_Value(int.Parse(sb.ToString()));
-                _formale = Regex.Replace(_formale, new StringBuilder(@"\\v\[").Append(sb.ToString()).Append(@"\]").ToString(), value.ToString());
-                _formale = Regex.Replace(_formale, new StringBuilder(@"<v=").Append(sb.ToString()).Append(@">").ToString(), value.ToString());
-
-            }
-            else
-            {
-                break;
+                int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
+                var value = ValuesManager.instance.Get_Value(index);
+                textout = Regex.Replace(textout, @"\\v\[\d{1,4}\]|<v=\d{1,4}>", value.ToString());
             }
         }
-    }
 
-    private void Convert_Text(ref string _formale)
-    {
-        while (true)
         {
-            Match match = Regex.Match(_formale, @"\\t\[\d{1,4}\]|<s=\d{1,4}>");
+            Match match = Regex.Match(textout, @"\\f\[\d{1,4}\]|<f=\d{1,4}>");
             if (match.Success)
             {
-                StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
-                string value = ValuesManager.instance.Get_Text(int.Parse(sb.ToString()));
-                _formale = Regex.Replace(_formale, new StringBuilder(@"\\t\[").Append(sb.ToString()).Append(@"\]").ToString(), value);
-                _formale = Regex.Replace(_formale, new StringBuilder(@"<s=").Append(sb.ToString()).Append(@">").ToString(), value.ToString());
-
-            }
-            else
-            {
-                break;
+                int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
+                var value = ValuesManager.instance.Get_Value_Float(index);
+                textout = Regex.Replace(textout, @"\\f\[\d{1,4}\]|<f=\d{1,4}>", value.ToString());
             }
         }
-    }
 
-    private void Convert_Value_Float(ref string _formale)
-    {
-        while (true)
-        {
-            Match match = Regex.Match(_formale, @"\\f\[\d{1,4}\]|<f=\d{1,4}>");
-            if (match.Success)
-            {
-                StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
-                float value = ValuesManager.instance.Get_Value_Float(int.Parse(sb.ToString()));
-                _formale = Regex.Replace(_formale, new StringBuilder(@"\\f\[").Append(sb.ToString()).Append(@"\]").ToString(), value.ToString());
-                _formale = Regex.Replace(_formale, new StringBuilder(@"<f=").Append(sb.ToString()).Append(@">").ToString(), value.ToString());
+        textout = Regex.Replace(textout, @"\\n", '\n'.ToString());
 
-            }
-            else
-            {
-                break;
-            }
-        }
+        return textout;
     }
 }

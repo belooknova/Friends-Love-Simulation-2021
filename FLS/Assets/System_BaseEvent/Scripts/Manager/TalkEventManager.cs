@@ -80,7 +80,7 @@ public class TalkEventManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            EventReservation("00TEST");
+            EventReservation("01TEST");
         }
 
         //命令解析
@@ -154,6 +154,7 @@ public class TalkEventManager : MonoBehaviour
         {
             if (!IsRunningEvent)
             {
+
                 StartCoroutine(RunEvent(masterDatas[0].datas));
                 //masterDatas.RemoveAt(0);
             }
@@ -343,6 +344,7 @@ public class TalkEventManager : MonoBehaviour
         int count = 0;
         int max_count = eventDatas.Count;
         int memory;
+        Debug.Log("イベント実行");
 
         while (count < max_count)
         {
