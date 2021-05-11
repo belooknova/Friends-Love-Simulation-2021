@@ -9,51 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1666186674, guid: 68c7e4565cde54155bb78d8e935f1ddb, type: 3}
+  m_Script: {fileID: 0}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: GitHub.Unity.45:GitHub.Unity:BranchesCache
   cacheType: 2
-  lastUpdatedAtString: 2021-05-11T23:06:45.782+09:00
-  initializedAtString: 2021-05-11T22:59:19.932+09:00
-  localBranches:
-  - name: develop
-    tracking: origin/develop
-  remoteBranches:
-  - name: origin/develop
-    tracking: '[None]'
-  remotes:
-  - name: origin
-    url: https://github.com/belooknova/Friends-Love-Simulation-2021.git
-    login: 
-    user: 
-    host: 
-    function: 0
-    token: 
+  lastUpdatedAtString: 0001-01-01T00:00:00.000+00:00
+  initializedAtString: 0001-01-01T00:00:00.000+00:00
+  localBranches: []
+  remoteBranches: []
+  remotes: []
   localConfigBranches:
-    keys:
-    - develop
-    values:
-    - name: develop
-      remote:
-        name: origin
-        url: https://github.com/belooknova/Friends-Love-Simulation-2021.git
-      trackingBranch: develop
+    keys: []
+    values: []
   remoteConfigBranches:
-    keys:
-    - origin
-    subKeys:
-    - Values:
-      - develop
-    subKeyValues:
-    - Values:
-      - name: develop
-        remote:
-          name: origin
-          url: https://github.com/belooknova/Friends-Love-Simulation-2021.git
-        trackingBranch: 
+    keys: []
+    subKeys: []
+    subKeyValues: []
   configRemotes:
-    keys:
-    - origin
-    values:
-    - name: origin
-      url: https://github.com/belooknova/Friends-Love-Simulation-2021.git
+    keys: []
+    values: []
