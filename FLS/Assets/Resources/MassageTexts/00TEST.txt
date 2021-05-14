@@ -1,5 +1,17 @@
 ﻿
 DIALOG "表示" はい
+ITEM_SHOW
+
+MESS "変数2番に6足す"
+INC_VALUE 2 6
+MESS "変数3番に[2]足す"
+INC_VALUE 3 "[2]"
+
+MESS "変数2番から1引く"
+DEC_VALUE 2 1
+MESS "変数3番から[2]+2引く"
+DEC_VALUE 3 "[2]+2"
+
 
 EVENTEND
 

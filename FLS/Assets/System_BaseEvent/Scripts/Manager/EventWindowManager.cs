@@ -9,6 +9,7 @@ using DG.Tweening;
 namespace FLS.Message
 {
     
+
     public sealed class EventWindowManager : MonoBehaviour
     {
         public static EventWindowManager instance;

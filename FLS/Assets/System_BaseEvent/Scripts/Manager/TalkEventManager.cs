@@ -80,7 +80,7 @@ public class TalkEventManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            EventReservation("01TEST");
+            EventReservation("00TEST");
         }
 
         //命令解析

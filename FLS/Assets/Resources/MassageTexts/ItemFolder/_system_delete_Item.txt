@@ -4,14 +4,10 @@
 
 DIALOG	"\t[100]を一つ捨てますか？" "捨てる" "戻る"
 	#変数セット 411番にセット vID =「ID + 130」 
-	SET_VALUE 411 "[410] + 130"
-	SET_VALUE "[411]" "[411] - 1" 
-
+	ITEM_REMOVE "[410]" 1
 ELSE_DIALOG
-	
 END_DIALOG
 
 #変数の初期化
-SET_VALUE 410 0
-SET_VALUE 411 0
-SET_TEXT  100 "" 
+VALUE_SET 410 0
+TEXT_SET  100 "" 

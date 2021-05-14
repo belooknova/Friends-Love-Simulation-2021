@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 namespace FLS.Item
 {
@@ -62,7 +63,7 @@ namespace FLS.Item
         {
             talk = TalkEventManager.instance;
             vm = ValuesManager.instance;
-
+            SetUp_Order();
         }
 
         // Update is called once per frame
@@ -87,8 +88,99 @@ namespace FLS.Item
 
         private void SetUp_Order()
         {
-            //talk.Order_Registration("ITEM_SET", Order_Set_Item, Exec_Set_Item);
+            //アイテムインベントリィ表示  => ITEM_SHOW
+            talk.Order_Registration("ITEM_SHOW", Order_Show_ItemInv, Exec_Show_ItemInv);
+            //アイテムインベントリィ消去  => ITEM_HIDE
+            talk.Order_Registration("ITEM_HIDE", Order_Hide_ItemInv, Exec_Hide_ItemInv);
+            //アイテムインベントリィ更新  => ITEM_UPDATE
+            talk.Order_Registration("ITEM_UPDATE", Order_Update_ItemInv, Exec_Update_ItemInv);
+            //アイテム追加                => ITEM_ADD アイテムID(p) 個数(p)
+            talk.Order_Registration("ITEM_ADD", (int count, OrderParametor par, string[] arg) => 
+            {
+                if (arg.Length == 3)
+                {
+                    //VALUE_
+                    StringBuilder sb = new StringBuilder("VALUE_INC \"")
+                    .Append(arg[1]).Append(" + ").Append(valueBaseIndex).Append("\" \"")
+                    .Append(arg[2]).Append("\"");
+
+                    talk.EventRegistration(sb.ToString());
+                    talk.EventRegistration("ITEM_UPDATE");
+
+                    return true;
+                }
+
+                return false;
+            } , null, Type_TalkEventData.MULTI);
+            //アイテム消去
+            talk.Order_Registration("ITEM_REMOVE", (int count, OrderParametor par, string[] arg) =>
+            {
+                if (arg.Length == 3)
+                {
+                    //VALUE_
+                    StringBuilder sb = new StringBuilder("VALUE_DEC \"")
+                    .Append(arg[1]).Append(" + ").Append(valueBaseIndex).Append("\" \"")
+                    .Append(arg[2]).Append("\"");
+                    Debug.Log(sb.ToString());
+                    talk.EventRegistration(sb.ToString());
+                    talk.EventRegistration("ITEM_UPDATE");
+
+                    return true;
+                }
+
+                return false;
+            }, null, Type_TalkEventData.MULTI);
+
         }
+
+        private bool Order_Show_ItemInv(int count, OrderParametor par, string[] arg)
+        {
+            if (arg.Length == 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void Exec_Show_ItemInv(ref int count, OrderParametor par)
+        {
+            StandInventry();
+            count++;
+        }
+
+        private bool Order_Hide_ItemInv(int count, OrderParametor par, string[] arg)
+        {
+            if (arg.Length == 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void Exec_Hide_ItemInv(ref int count, OrderParametor par)
+        {
+            ExitInventry();
+            count++;
+        }
+
+        private bool Order_Update_ItemInv(int count, OrderParametor par, string[] arg)
+        {
+            if (arg.Length == 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void Exec_Update_ItemInv(ref int count, OrderParametor par)
+        {
+            Update_Indentry();
+            count++;
+        }
+
 
         public void StandInventry()
         {
@@ -140,7 +232,6 @@ namespace FLS.Item
                     if (value > 0)
                     {
                         var data = Search_ItemCall(i);
-                        Debug.Log(data);
                         if (data == null)
                         {
                             Set_ItemCell(i); //入手

@@ -44,7 +44,7 @@ public sealed class ValuesManager : MonoBehaviour
         TalkEventManager talk = TalkEventManager.instance;
 
         talk.Order_Registration("VALUE_SET", //『n秒待機する』
-                                            //デコード時の設定
+                                             //デコード時の設定
             (int count, OrderParametor par, string[] arg) =>
             {
                 if (arg.Length == 3)
@@ -60,11 +60,11 @@ public sealed class ValuesManager : MonoBehaviour
 
             //実行内容
             (ref int count, OrderParametor par) => Oreder_set_value(ref count, par)
-            ) ;
+            );
 
 
         talk.Order_Registration("TEXT_SET", //『n秒待機する』
-            //デコード時の設定
+                                            //デコード時の設定
             (int count, OrderParametor par, string[] arg) =>
             {
                 if (arg.Length == 3)
@@ -80,7 +80,7 @@ public sealed class ValuesManager : MonoBehaviour
 
             //実行内容
             (ref int count, OrderParametor par) => Order_set_text(ref count, par)
-            ) ;
+            );
 
         talk.Order_Registration("TEXTC_SET", //デコード時の設定
             (int count, OrderParametor par, string[] arg) =>
@@ -100,19 +100,24 @@ public sealed class ValuesManager : MonoBehaviour
             (ref int count, OrderParametor par) => Order_set_textc(ref count, par)
             );
 
-            }
+        talk.Order_Registration("VALUE_INC", Order_inc, Exec_inc);
+        talk.Order_Registration("VALUE_DEC", Order_dec, Exec_dec);
+    }
+
+
+
 
     /// <summary>
     /// トークイベント命令用・数値変数代入
     /// </summary>
     /// <param name="eo"></param>
-    public void Oreder_set_value(ref int count, OrderParametor par)
+    private void Oreder_set_value(ref int count, OrderParametor par)
     {
         string formale = par.parString[1];
         int index = new Parser(ParserType.Number, par.parString[0]).Eval_Value(Values);
 
         Parser parser = new Parser(ParserType.Number, formale);
-        float v = parser.Eval_Value(Values);
+        float v = parser.Eval_Value_outFlaot(Values);
 
         if (!Set_Value(index, v))
         {
@@ -126,7 +131,7 @@ public sealed class ValuesManager : MonoBehaviour
     /// トークイベント命令用・文字列変数代入
     /// </summary>
     /// <param name="eo"></param>
-    public void Order_set_text(ref int count, OrderParametor par)
+    private void Order_set_text(ref int count, OrderParametor par)
     {
         string text = par.parString[1];
         int index = new Parser(par.parString[0]).Eval_Value(Values);
@@ -141,7 +146,7 @@ public sealed class ValuesManager : MonoBehaviour
         count++;
     }
 
-    public void Order_set_textc(ref int count, OrderParametor par)
+    private void Order_set_textc(ref int count, OrderParametor par)
     {
         int oindex = par.parInt[0];
         int index = par.parInt[1];
@@ -155,6 +160,57 @@ public sealed class ValuesManager : MonoBehaviour
 
         count++;
     }
+
+    private bool Order_inc(int count, OrderParametor par, string[] arg)
+    {
+        //INC_VALUE 識別番号 数値
+
+        if (arg.Length == 3)
+        {
+            par.parString.Add(arg[1]);
+            par.parString.Add(arg[2]);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void Exec_inc(ref int count, OrderParametor par)
+    {
+        string _index_s = par.parString[0];
+        string _value_s = par.parString[1];
+
+        IncrementValue(_index_s, _value_s);
+
+        count++;
+    }
+
+    private bool Order_dec(int count, OrderParametor par, string[] arg)
+    {
+        //INC_VALUE 識別番号 数値
+
+        if (arg.Length == 3)
+        {
+            par.parString.Add(arg[1]);
+            par.parString.Add(arg[2]);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void Exec_dec(ref int count, OrderParametor par)
+    {
+        string _index_s = par.parString[0];
+        string _value_s = par.parString[1];
+
+        DecrementValue(_index_s, _value_s);
+
+        count++;
+    }
+
 
     /// <summary>
     /// 数値の初期化
@@ -186,14 +242,7 @@ public sealed class ValuesManager : MonoBehaviour
 
     public bool Set_Value(int index, string value)
     {
-        Parser parser = new Parser();
-        parser.Start_Value(value);
-        if (!parser.errorCode)
-        {
-            return Set_Value(index, parser.Eval_Value_outFlaot(Get_Values()));
-        }
-
-        return false;
+        return Set_Value(index, new Parser(ParserType.Number, value).Eval_Value_outFlaot(Values));
     }
 
     public float[] Get_Values()
@@ -260,65 +309,70 @@ public sealed class ValuesManager : MonoBehaviour
     {
         string _text = Get_Text(inputIndex);
 
-        Convert_Value(ref _text);
-        Convert_Value_Float(ref _text);
-        Convert_Text(ref _text);
+        _text = Conversion_Text(_text);
         return Set_Text(outIndex, _text);
     }
 
-    private void Convert_Value(ref string _formale)
+    private string Conversion_Text(string text)
     {
-        while (true)
+        string textout = text;
         {
-            Match match = Regex.Match(_formale, @"\\v\[\d{1,4}\]");
+            Match match = Regex.Match(textout, @"\\t\[\d{1,4}\]");
             if (match.Success)
             {
-                Debug.Log("成功");
-                StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
-                int value = ValuesManager.instance.Get_Value(int.Parse(sb.ToString()));
-                _formale = Regex.Replace(_formale, new StringBuilder(@"\\v\[").Append(sb.ToString()).Append(@"\]").ToString(), value.ToString());
-            }
-            else
-            {
-                break;
+                int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
+                var value = ValuesManager.instance.Get_Text(index);
+                textout = Regex.Replace(textout, @"\\t\[\d{1,4}\]", value);
             }
         }
+
+        {
+            Match match = Regex.Match(textout, @"\\v\[\d{1,4}\]");
+            if (match.Success)
+            {
+                int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
+                var value = ValuesManager.instance.Get_Value(index);
+                textout = Regex.Replace(textout, @"\\v\[\d{1,4}\]", value.ToString());
+            }
+        }
+
+        {
+            Match match = Regex.Match(textout, @"\\f\[\d{1,4}\]");
+            if (match.Success)
+            {
+                int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
+                var value = ValuesManager.instance.Get_Value_Float(index);
+                textout = Regex.Replace(textout, @"\\f\[\d{1,4}\]", value.ToString());
+            }
+        }
+
+        return textout;
     }
 
-    private void Convert_Text(ref string _formale)
+    /// <summary>
+    /// 任意の変数をインクリメントする
+    /// </summary>
+    /// <param name="_index_s"></param>
+    /// <param name="_value_s"></param>
+    public void IncrementValue(string _index_s, string _value_s)
     {
-        while (true)
-        {
-            Match match = Regex.Match(_formale, @"\\t\[\d{1,4}\]");
-            if (match.Success)
-            {
-                StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
-                string value = ValuesManager.instance.Get_Text(int.Parse(sb.ToString()));
-                _formale = Regex.Replace(_formale, new StringBuilder(@"\\t\[").Append(sb.ToString()).Append(@"\]").ToString(), value);
-            }
-            else
-            {
-                break;
-            }
-        }
+        int index = new Parser(ParserType.Number, _index_s).Eval_Value(Values);
+        float value = new Parser(ParserType.Number, _value_s).Eval_Value_outFlaot(Values);
+
+        Set_Value(index, Get_Value(index) + value);
     }
 
-    private void Convert_Value_Float(ref string _formale)
+    /// <summary>
+    /// 任意の変数をデクリメントする
+    /// </summary>
+    /// <param name="_index_s"></param>
+    /// <param name="_value_s"></param>
+    public void DecrementValue(string _index_s, string _value_s)
     {
-        while (true)
-        {
-            Match match = Regex.Match(_formale, @"\\f\[\d{1,4}\]");
-            if (match.Success)
-            {
-                StringBuilder sb = new StringBuilder(match.Value).Remove(0, 3).Remove(match.Length - 1 - 3, 1);
-                float value = ValuesManager.instance.Get_Value_Float(int.Parse(sb.ToString()));
-                _formale = Regex.Replace(_formale, new StringBuilder(@"\\f\[").Append(sb.ToString()).Append(@"\]").ToString(), value.ToString());
-            }
-            else
-            {
-                break;
-            }
-        }
+        int index = new Parser(ParserType.Number, _index_s).Eval_Value(Values);
+        float value = new Parser(ParserType.Number, _value_s).Eval_Value_outFlaot(Values);
+
+        Set_Value(index, Get_Value(index) - value);
     }
 
     private float[] Startup(int max)

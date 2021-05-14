@@ -474,7 +474,7 @@ public class GameDebuger : EditorWindow
             }
             EditorGUILayout.Space();
 
-            //Debug.Log(setting.memorySrots.Count);
+            // Debug.Log(setting.memorySrots.Count);
             for (int i = 0; i < setting.memorySrots.Count; i++) {
                 var list = setting.memorySrots;
                 string mark = "";
