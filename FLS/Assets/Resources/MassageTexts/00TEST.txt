@@ -1,4 +1,6 @@
 ﻿
+ITEM_CALLSHOP <items:1,4,5>
+
 DIALOG "表示" はい
 ITEM_SHOW
 

@@ -15,3 +15,6 @@ MonoBehaviour:
   itemName: "\u98A8\u9234"
   description: "\u5FC3\u304C\u843D\u3061\u7740\u304F\u3001\u590F\u306E\u97F3\u8272\u3002"
   eventPath: ItemFolder/windChime
+  deletePath: NONE
+  price: 200
+  BunbuyFormale: False

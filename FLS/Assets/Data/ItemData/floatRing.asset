@@ -15,3 +15,6 @@ MonoBehaviour:
   itemName: "\u6D6E\u304D\u8F2A"
   description: "\u305D\u3046\u3060\u3001\u6D77\u306B\u884C\u3053\u3046\u3002"
   eventPath: ItemFolder/floatRing
+  deletePath: NONE
+  price: 100
+  BunbuyFormale: False

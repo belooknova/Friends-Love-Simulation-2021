@@ -2,78 +2,136 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
-public class ManeyTagManager : MonoBehaviour
+namespace FLS.StatusBar
 {
-    [SerializeField]
-    private Text text;
-    [SerializeField]
-    private Text textMain;
 
-    private int maney = 0;
-
-    public bool DisplayManey = false;
-
-
-    private void Update()
+    public class ManeyTagManager : MonoBehaviour
     {
+        [SerializeField]
+        private Text subtext;
+        [SerializeField]
+        private Text textMain;
 
+        private int maney = 0;
 
-        int value = ValuesManager.instance.Get_Value(4);
+        public bool DisplayManey = false;
 
-        if (DisplayManey)
+        private bool moving=false;
+        [SerializeField]
+        private Transform subTran;
+
+        private void Start()
         {
-            if (value != maney)
+        }
+
+        private void Update()
+        {
+            int value = ValuesManager.instance.Get_Value((int)VariableType.Money);
+
+            if (DisplayManey && !moving)
             {
-                if (value - maney > 0) //増えた
+                if (value != maney)
                 {
-                    StartCoroutine(UpdateManey(value, maney, true));
-                }
-                else //減った
-                {
-                    StartCoroutine(UpdateManey(value, maney, false));
+                    if (value - maney > 0) //増えた
+                    {
+                        StartCoroutine(Upper(maney, value));
+                        //StartCoroutine(UpdateManey(value, maney, true));
+                        moving = true;
+                    }
+                    else //減った
+                    {
+                        StartCoroutine(Downer(maney, value));
+                        //StartCoroutine(UpdateManey(value, maney, false));
+                        moving = true;
+                    }
                 }
             }
+
+            textMain.text = maney.ToString();
+
+            if (moving)
+            {
+                subTran.gameObject.SetActive(true);
+            }
+            else
+            {
+                subTran.gameObject.SetActive(false);
+            }
+
         }
-        else
+
+        private IEnumerator Upper(int startManey, int lastManey)
         {
-            textMain.text = value.ToString() + "円";
+            moving = true;
+            ViewPulsManey(lastManey - startManey);
+
+            int m = 20;
+
+            if (Mathf.Abs(lastManey - startManey) > 100)
+            {
+                for (int i = 0; i <= m; i++)
+                {
+                    yield return null;
+                    maney += Mathf.FloorToInt(Mathf.Abs((lastManey - startManey) / (float)m));
+
+                }
+            }
+            maney = lastManey;
+
+            yield return new WaitForSeconds(1);
+            moving = false;
         }
 
-        maney = value;
-        
-    }
-
-    private IEnumerator UpdateManey(int maney, int buff, bool plus)
-    {
-        //Debug.Log("お金");
-        int a;
-
-        text.gameObject.SetActive(true);
-        if (plus)
+        private IEnumerator Downer(int startManey, int lastManey)
         {
-            a = 1;
-            text.color = Color.green;
-            text.text = "+" + Mathf.Abs(maney - buff).ToString();
-        } else {
-            a = -1;
-            text.color = Color.red;
-            text.text = "-" + Mathf.Abs(maney - buff).ToString();
+            moving = true;
+            ViewPulsManey(lastManey - startManey);
+
+            int m = 20;
+            if (Mathf.Abs(lastManey - startManey) > 100)
+            {
+                for (int i = 0; i <= m; i++)
+                {
+                    yield return null;
+                    maney -= Mathf.FloorToInt(Mathf.Abs((lastManey - startManey) / (float)m));
+                }
+            }
+            maney = lastManey;
+
+            yield return new WaitForSeconds(1);
+            moving = false;
         }
 
-
-        for(int i=0; i < Mathf.Abs(maney-buff); i+=Mathf.CeilToInt(Mathf.Abs(maney - buff)/10f))
+        private void ViewPulsManey(int value)
         {
-            textMain.text = (buff + i * a).ToString() + "円"; 
-
-            
-            yield return null;
+            if (value > 0)
+            {
+                subtext.color = Temp.Color.PermitGreen;
+                subtext.text = "+" + value.ToString();
+            }
+            else
+            {
+                subtext.color = Temp.Color.BanRed;
+                subtext.text = value.ToString();
+            }
         }
-        textMain.text = maney.ToString() + "円";
 
+        public void Show()
+        {
+            transform.DOLocalMoveY(384, 0.2f).OnKill(()=> 
+            {
+                DisplayManey = true;
+            });
+        }
 
-        yield return new WaitForSeconds(1);
-        text.gameObject.SetActive(false);
-
+        public void Hide()
+        {
+            transform.DOLocalMoveY(480, 0.2f).OnKill(()=>
+            {
+                DisplayManey = false;
+            });
+        }
     }
 }

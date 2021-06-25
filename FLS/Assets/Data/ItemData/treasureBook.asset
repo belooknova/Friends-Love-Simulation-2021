@@ -15,3 +15,6 @@ MonoBehaviour:
   itemName: "\u304A\u5B9D\u672C"
   description: "\u304A\u5B9D\u672C\u3001\u3064\u307E\u308A\u306F\u30A8\u30ED\u672C\u3002"
   eventPath: ItemFolder/treasureBook
+  deletePath: NONE
+  price: 800
+  BunbuyFormale: False

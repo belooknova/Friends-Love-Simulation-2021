@@ -15,3 +15,6 @@ MonoBehaviour:
   itemName: "\u7D75\u672C"
   description: "\u305F\u307E\u306B\u8AAD\u307F\u305F\u304F\u306A\u308B\u3001\u304B\u3082\u3002"
   eventPath: ItemFolder/pictureBook
+  deletePath: NONE
+  price: 800
+  BunbuyFormale: False

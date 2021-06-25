@@ -69,3 +69,23 @@ public sealed class GameManager : MonoBehaviour
 
     #endregion
 }
+
+public enum VariableType
+{
+    Date=1, Money=2 ,DayOfTheWeek=10
+}
+
+namespace FLS.Temp {
+    public sealed class Color
+    {
+        public static UnityEngine.Color BanRed { get; } =       new UnityEngine.Color(1, 0.3f, 0.3f);
+        public static UnityEngine.Color PermitGreen { get; } =  new UnityEngine.Color(0.6f, 0.6f, 0.9f);
+    }
+
+    public sealed class Path_SE
+    {
+        public static string Button_OverMouse { get; } =    "enter15";
+        public static string Button_ClickErrer { get; } =   "enter8";
+        public static string BuyItem_Bell { get; } = "shop_bell";
+    }
+}

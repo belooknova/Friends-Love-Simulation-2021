@@ -4,107 +4,111 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text;
 using System.Text.RegularExpressions;
-using FLS.Message;
+using TMPro;
 
-public class Dialog_Prefab : MonoBehaviour
+namespace FLS.Dialog
 {
-    public GameObject[] button_objects;
-    public Text mainText;
 
-    // Start is called before the first frame update
-    void Start()
+    public class Dialog_Prefab : MonoBehaviour
     {
-        
-    }
+        public GameObject[] button_objects;
+        public TextMeshProUGUI mainText;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void Set()
-    {
-
-    }
-
-    public void Set_Default_Dialog(string b1, string b2, string text)
-    {
-        int mode = 0;
-        Set_Text(text);
-
-        if (b1 == "") { mode++; }
-        if (b2 == "") { mode++; }
-
-        if (mode == 0) //ボタン二つ
+        // Start is called before the first frame update
+        void Start()
         {
-            button_objects[0].GetComponentInChildren<Text>().text = Conversion_Text(b1);
-            button_objects[1].GetComponentInChildren<Text>().text = Conversion_Text(b2);
+
         }
-        else if (mode == 1) //ボタン一つ
+
+        // Update is called once per frame
+        void Update()
         {
-            if (b1 != "")
+
+        }
+
+        public void Set()
+        {
+
+        }
+
+        public void Set_Default_Dialog(string b1, string b2, string text)
+        {
+            int mode = 0;
+            Set_Text(text);
+
+            if (b1 == "") { mode++; }
+            if (b2 == "") { mode++; }
+
+            if (mode == 0) //ボタン二つ
             {
-                button_objects[0].GetComponentInChildren<Text>().text = Conversion_Text(b1);
-                button_objects[1].SetActive(false);
+                button_objects[0].GetComponentInChildren<TextMeshProUGUI>().text = Conversion_Text(b1);
+                button_objects[1].GetComponentInChildren<TextMeshProUGUI>().text = Conversion_Text(b2);
             }
-
-            if (b2 != "")
+            else if (mode == 1) //ボタン一つ
             {
-                button_objects[0].GetComponentInChildren<Text>().text = Conversion_Text(b2);
-                button_objects[1].SetActive(false);
-            }
-        }
-    }
+                if (b1 != "")
+                {
+                    button_objects[0].GetComponentInChildren<TextMeshProUGUI>().text = Conversion_Text(b1);
+                    button_objects[1].SetActive(false);
+                }
 
-    private void Set_Text(string text)
-    {
-        string t = text;
-        t = Conversion_Text(t);
-
-        if (t == "NONE")
-        {
-            mainText.transform.gameObject.SetActive(false);
-        }
-
-        mainText.text = t;
-    }
-
-    private string Conversion_Text(string text)
-    {
-        string textout = text;
-        {
-            Match match = Regex.Match(textout, @"\\t\[\d{1,4}\]|<s=\d{1,4}>");
-            if (match.Success)
-            {
-                int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
-                var value = ValuesManager.instance.Get_Text(index);
-                textout = Regex.Replace(textout, @"\\t\[\d{1,4}\]|<s=\d{1,4}>", value);
+                if (b2 != "")
+                {
+                    button_objects[0].GetComponentInChildren<TextMeshProUGUI>().text = Conversion_Text(b2);
+                    button_objects[1].SetActive(false);
+                }
             }
         }
 
+        private void Set_Text(string text)
         {
-            Match match = Regex.Match(textout, @"\\v\[\d{1,4}\]|<v=\d{1,4}>");
-            if (match.Success)
+            string t = text;
+            t = Conversion_Text(t);
+
+            if (t == "NONE")
             {
-                int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
-                var value = ValuesManager.instance.Get_Value(index);
-                textout = Regex.Replace(textout, @"\\v\[\d{1,4}\]|<v=\d{1,4}>", value.ToString());
+                mainText.transform.gameObject.SetActive(false);
             }
+
+            mainText.text = t;
         }
 
+        private string Conversion_Text(string text)
         {
-            Match match = Regex.Match(textout, @"\\f\[\d{1,4}\]|<f=\d{1,4}>");
-            if (match.Success)
+            string textout = text;
             {
-                int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
-                var value = ValuesManager.instance.Get_Value_Float(index);
-                textout = Regex.Replace(textout, @"\\f\[\d{1,4}\]|<f=\d{1,4}>", value.ToString());
+                Match match = Regex.Match(textout, @"\\t\[\d{1,4}\]|<s=\d{1,4}>");
+                if (match.Success)
+                {
+                    int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
+                    var value = ValuesManager.instance.Get_Text(index);
+                    textout = Regex.Replace(textout, @"\\t\[\d{1,4}\]|<s=\d{1,4}>", value);
+                }
             }
+
+            {
+                Match match = Regex.Match(textout, @"\\v\[\d{1,4}\]|<v=\d{1,4}>");
+                if (match.Success)
+                {
+                    int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
+                    var value = ValuesManager.instance.Get_Value(index);
+                    textout = Regex.Replace(textout, @"\\v\[\d{1,4}\]|<v=\d{1,4}>", value.ToString());
+                }
+            }
+
+            {
+                Match match = Regex.Match(textout, @"\\f\[\d{1,4}\]|<f=\d{1,4}>");
+                if (match.Success)
+                {
+                    int index = int.Parse(match.Value.Substring(3, match.Value.Length - 3 - 1));
+                    var value = ValuesManager.instance.Get_Value_Float(index);
+                    textout = Regex.Replace(textout, @"\\f\[\d{1,4}\]|<f=\d{1,4}>", value.ToString());
+                }
+            }
+
+            textout = Regex.Replace(textout, @"\\n", '\n'.ToString());
+
+            return textout;
         }
-
-        textout = Regex.Replace(textout, @"\\n", '\n'.ToString());
-
-        return textout;
     }
 }

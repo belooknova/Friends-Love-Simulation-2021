@@ -23,7 +23,7 @@ public class MetaTextParser
         Convert_Value_Float(ref _formale);
         Convert_Text(ref _formale);
 
-        Debug.LogFormat("数値変数：{0}", _formale);
+        //Debug.LogFormat("数値変数：{0}", _formale);
 
 
         List<string> orderList = new List<string>();

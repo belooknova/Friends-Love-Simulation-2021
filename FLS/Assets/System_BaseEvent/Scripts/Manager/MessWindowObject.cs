@@ -273,7 +273,7 @@ namespace FLS.Message
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        private string Conversion_Text(string text)
+        public string Conversion_Text(string text)
         {
             string textout = text;
             {

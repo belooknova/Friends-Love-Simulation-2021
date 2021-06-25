@@ -15,3 +15,6 @@ MonoBehaviour:
   itemName: "\u30BB\u30DF\u306E\u629C\u3051\u6BBB"
   description: "\u8CB7\u308F\u306A\u304F\u3066\u3082\u62FE\u3048\u308B\u6C17\u304C\u3059\u308B\u3002"
   eventPath: ItemFolder/cicada
+  deletePath: NONE
+  price: 50
+  BunbuyFormale: False

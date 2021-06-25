@@ -134,9 +134,9 @@ public sealed class ValuesManager : MonoBehaviour
     private void Order_set_text(ref int count, OrderParametor par)
     {
         string text = par.parString[1];
-        int index = new Parser(par.parString[0]).Eval_Value(Values);
+        int index = new Parser(ParserType.Number, par.parString[0]).Eval_Value(Values);
 
-        //Debug.LogFormat("[ValusManager] {0}番の文字列変数に{1}を代入", index, text);
+        //Debug.LogFormat("[ValusManager] {0}番の文字列変数に{1}を代入", par.parString[0], text);
 
         if (!Set_Text(index, text))
         {
@@ -359,6 +359,11 @@ public sealed class ValuesManager : MonoBehaviour
         int index = new Parser(ParserType.Number, _index_s).Eval_Value(Values);
         float value = new Parser(ParserType.Number, _value_s).Eval_Value_outFlaot(Values);
 
+        IncrementValue(index, value);
+    }
+
+    public void IncrementValue(int index, float value)
+    {
         Set_Value(index, Get_Value(index) + value);
     }
 
@@ -372,6 +377,11 @@ public sealed class ValuesManager : MonoBehaviour
         int index = new Parser(ParserType.Number, _index_s).Eval_Value(Values);
         float value = new Parser(ParserType.Number, _value_s).Eval_Value_outFlaot(Values);
 
+        DecrementValue(index, value);
+    }
+
+    public void DecrementValue(int index, float value)
+    {
         Set_Value(index, Get_Value(index) - value);
     }
 

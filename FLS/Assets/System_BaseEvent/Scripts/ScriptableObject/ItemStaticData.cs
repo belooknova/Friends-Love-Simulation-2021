@@ -28,5 +28,11 @@ namespace FLS.Item
         /// <summary> アイテムを捨てるイベントのファイル名(設定しない場合は汎用イベント) </summary>
         public string deletePath = "NONE";
 
+        /// <summary> アイテムの価値 </summary>
+        public int price = 0;
+
+        /// <summary> アイテム購入禁止条件 </summary>
+        public string BunbuyFormale = "False";
+
     }
 }

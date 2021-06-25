@@ -19,13 +19,15 @@ namespace FLS.Item
         [SerializeField]
         private ItemDBList itemDBs;
         [SerializeField]
-        private ItemCall_Prefab prefab_Item;
+        private ItemCell_Prefab prefab_Item;
         [SerializeField]
         private Transform canves;
         [SerializeField]
         private CanvasGroup canvasBase;
         [SerializeField]
         private Animator anime;
+        [SerializeField]
+        private ItemShopControll shopControll;
 
         /// <summary> インベントリを生成済 </summary>
         private bool isStartUped = false;
@@ -40,7 +42,7 @@ namespace FLS.Item
 
         public bool isItemEventing = false;
 
-        private readonly List<ItemCall_Prefab> call_Prefabs = new List<ItemCall_Prefab>();
+        private readonly List<ItemCell_Prefab> call_Prefabs = new List<ItemCell_Prefab>();
 
         private TalkEventManager talk;
         private ValuesManager vm;
@@ -131,6 +133,9 @@ namespace FLS.Item
                 return false;
             }, null, Type_TalkEventData.MULTI);
 
+            //アイテムショップ呼び出し
+            talk.Order_Registration("ITEM_CALLSHOP", Order_Call_ItemShop, Exec_Call_ItemShop);
+
         }
 
         private bool Order_Show_ItemInv(int count, OrderParametor par, string[] arg)
@@ -181,6 +186,34 @@ namespace FLS.Item
             count++;
         }
 
+        private bool Order_Call_ItemShop(int count, OrderParametor par, string[] arg)
+        {
+            //ITEM_CALLSHOP メタデータ(items:n, sale:1, saleD:0)
+
+            if (arg.Length == 2)
+            {
+                par.parString.Add(arg[1]);
+                par.parInt.Add(0);
+
+                return true;
+            }
+            return false;
+        }
+
+        private void Exec_Call_ItemShop(ref int count, OrderParametor par)
+        {
+            if (par.parInt[0] == 0)
+            {
+                MetaTextParser meta = new MetaTextParser(par.parString[0]);
+                shopControll.Init_ItemShop(meta);
+                par.parInt[0] = 1;
+            }
+
+            if (!shopControll.isActive)
+            {
+                count++;
+            }
+        }
 
         public void StandInventry()
         {
@@ -252,7 +285,7 @@ namespace FLS.Item
             }
         }
 
-        private ItemCall_Prefab Search_ItemCall(int itemIndex)
+        private ItemCell_Prefab Search_ItemCall(int itemIndex)
         {
             foreach(var db in call_Prefabs)
             {
@@ -274,7 +307,7 @@ namespace FLS.Item
 
         private void Set_ItemCell(int index)
         {
-            ItemCall_Prefab cell = Instantiate(prefab_Item).GetComponent<ItemCall_Prefab>();
+            ItemCell_Prefab cell = Instantiate(prefab_Item).GetComponent<ItemCell_Prefab>();
             cell.transform.SetParent(canves);
             cell.StartUp(this, index);
             call_Prefabs.Add(cell);
