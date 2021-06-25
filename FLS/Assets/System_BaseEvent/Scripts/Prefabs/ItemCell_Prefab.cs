@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace FLS.Item
 {
@@ -11,11 +10,11 @@ namespace FLS.Item
         [SerializeField]
         public int index = 0;
         [SerializeField]
-        private TextMeshProUGUI nameText;
+        private Text nameText;
         [SerializeField]
-        private TextMeshProUGUI descriptionText;
+        private Text descriptionText;
         [SerializeField]
-        private TextMeshProUGUI countText;
+        private Text countText;
         [SerializeField]
         private int itemCount = 0;
         private ItemManager im;

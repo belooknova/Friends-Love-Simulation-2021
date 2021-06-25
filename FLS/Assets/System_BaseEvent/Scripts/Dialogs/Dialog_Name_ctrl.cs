@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace FLS.Dialog
 {
 
     public class Dialog_Name_ctrl : MonoBehaviour
     {
-        public TMP_InputField family;
-        public TMP_InputField first;
+        public InputField family;
+        public InputField first;
         public GameObject button;
 
         private string text1 = "";

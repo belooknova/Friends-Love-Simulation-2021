@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text;
 using System.Text.RegularExpressions;
-using TMPro;
 
 namespace FLS.Dialog
 {
@@ -12,7 +11,7 @@ namespace FLS.Dialog
     public class Dialog_Prefab : MonoBehaviour
     {
         public GameObject[] button_objects;
-        public TextMeshProUGUI mainText;
+        public Text mainText;
 
         // Start is called before the first frame update
         void Start()
@@ -41,20 +40,20 @@ namespace FLS.Dialog
 
             if (mode == 0) //ボタン二つ
             {
-                button_objects[0].GetComponentInChildren<TextMeshProUGUI>().text = Conversion_Text(b1);
-                button_objects[1].GetComponentInChildren<TextMeshProUGUI>().text = Conversion_Text(b2);
+                button_objects[0].GetComponentInChildren<Text>().text = Conversion_Text(b1);
+                button_objects[1].GetComponentInChildren<Text>().text = Conversion_Text(b2);
             }
             else if (mode == 1) //ボタン一つ
             {
                 if (b1 != "")
                 {
-                    button_objects[0].GetComponentInChildren<TextMeshProUGUI>().text = Conversion_Text(b1);
+                    button_objects[0].GetComponentInChildren<Text>().text = Conversion_Text(b1);
                     button_objects[1].SetActive(false);
                 }
 
                 if (b2 != "")
                 {
-                    button_objects[0].GetComponentInChildren<TextMeshProUGUI>().text = Conversion_Text(b2);
+                    button_objects[0].GetComponentInChildren<Text>().text = Conversion_Text(b2);
                     button_objects[1].SetActive(false);
                 }
             }
